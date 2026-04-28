@@ -1,0 +1,5 @@
+,first_prompt_tokens,first_prompt_tokens,first_prompt_tokens,first_constraint_count,first_constraint_count,first_constraint_count,total_example_count,total_example_count,total_example_count,first_specification_clarity_count,first_specification_clarity_count,first_specification_clarity_count,iteration_count,iteration_count,iteration_count,refinement_turns,refinement_turns,refinement_turns,correction_cycles,correction_cycles,correction_cycles,prompt_token_growth,prompt_token_growth,prompt_token_growth
+,median,mean,std,median,mean,std,median,mean,std,median,mean,std,median,mean,std,median,mean,std,median,mean,std,median,mean,std
+success_label,,,,,,,,,,,,,,,,,,,,,,,,
+Successful,59.0,187.529,377.033,0.0,1.249,2.542,0.0,1.817,4.459,0.0,0.083,0.338,2.0,4.556,7.579,0.0,0.543,1.672,0.0,0.0,0.0,0.0,-81.303,360.47
+Unsuccessful,36.0,210.465,548.925,0.0,1.296,3.828,0.0,1.38,6.65,0.0,0.077,0.434,2.0,6.261,21.51,0.0,0.874,4.085,0.0,0.278,1.452,0.0,-76.258,394.115

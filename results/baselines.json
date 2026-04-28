@@ -1,0 +1,7 @@
+{
+  "n": 6413,
+  "majority": 0.5,
+  "random": 0.498,
+  "our_model": 0.799,
+  "bow_logistic": 0.782
+}

@@ -1,0 +1,9 @@
+patterns:
+  constraints: "\\b(must|should|need\\s+to|required|do\\s+not|don't|cannot|only|exactly|at\\s+least|at\\s+most|strictly|without)\\b"
+  examples: "(for\\s+example|for\\s+instance|e\\.g\\.|example:|input:|output:|```[\\s\\S]*?```)"
+  role_instructions: "(?m)^\\s*(you\\s+are|act\\s+as|as\\s+a)\\b"
+  output_format: "\\b(output\\s+format|return\\s+only|respond\\s+with|json|markdown|table|bullet\\s+list)\\b"
+  specification_clarity: "\\b(the\\s+function\\s+should|it\\s+should\\s+return|the\\s+input\\s+is|the\\s+output\\s+should|make\\s+sure|ensure\\s+that|given\\s+a|takes?\\s+as\\s+input|returns?\\s+a|accepts?\\s+a|implement\\s+a|create\\s+a\\s+function|write\\s+a\\s+function|build\\s+a)\\b"
+  refinement: "\\b(fix|bug|error|exception|not\\s+working|doesn't\\s+work|still\\s+broken|retry|revise|refactor|improve|optimi[sz]e)\\b"
+  positive_ack: "\\b(works|worked|solved|fixed|that\\s+helped|thank\\s+you|thanks,?\\s+that|perfect|resolved)\\b"
+  negative_ack: "\\b(not\\s+working|doesn't\\s+work|still\\s+broken|error\\s+persists|failed|wrong|didn't\\s+fix|not\\s+fixed)\\b"

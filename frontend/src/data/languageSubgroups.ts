@@ -1,0 +1,22 @@
+import { LanguageSubgroup } from '@/lib/types';
+export const languageSubgroups: LanguageSubgroup[] = [
+  { language: "CSS", n_conversations: 1313, n_success: 960, n_failure: 353, roc_auc_mean: 0.809, accuracy_mean: 0.736, f1_mean: 0.795 },
+  { language: "Python", n_conversations: 703, n_success: 378, n_failure: 325, roc_auc_mean: 0.716, accuracy_mean: 0.676, f1_mean: 0.750 },
+  { language: "Assembly", n_conversations: 25, n_success: 18, n_failure: 7, roc_auc_mean: 0.700, accuracy_mean: 0.720, f1_mean: 0.773 },
+  { language: "C", n_conversations: 136, n_success: 86, n_failure: 50, roc_auc_mean: 0.668, accuracy_mean: 0.698, f1_mean: 0.786 },
+  { language: "Go", n_conversations: 110, n_success: 69, n_failure: 41, roc_auc_mean: 0.668, accuracy_mean: 0.636, f1_mean: 0.722 },
+  { language: "Jupyter Notebook", n_conversations: 270, n_success: 108, n_failure: 162, roc_auc_mean: 0.667, accuracy_mean: 0.678, f1_mean: 0.548 },
+  { language: "PHP", n_conversations: 45, n_success: 27, n_failure: 18, roc_auc_mean: 0.656, accuracy_mean: 0.578, f1_mean: 0.619 },
+  { language: "JavaScript", n_conversations: 345, n_success: 244, n_failure: 101, roc_auc_mean: 0.639, accuracy_mean: 0.583, f1_mean: 0.652 },
+  { language: "Rust", n_conversations: 63, n_success: 46, n_failure: 17, roc_auc_mean: 0.623, accuracy_mean: 0.646, f1_mean: 0.733 },
+  { language: "TypeScript", n_conversations: 652, n_success: 456, n_failure: 196, roc_auc_mean: 0.622, accuracy_mean: 0.604, f1_mean: 0.683 },
+  { language: "Java", n_conversations: 163, n_success: 112, n_failure: 51, roc_auc_mean: 0.620, accuracy_mean: 0.669, f1_mean: 0.776 },
+  { language: "HTML", n_conversations: 329, n_success: 169, n_failure: 160, roc_auc_mean: 0.602, accuracy_mean: 0.547, f1_mean: 0.637 },
+  { language: "C++", n_conversations: 186, n_success: 94, n_failure: 92, roc_auc_mean: 0.579, accuracy_mean: 0.527, f1_mean: 0.542 },
+  { language: "Dockerfile", n_conversations: 72, n_success: 34, n_failure: 38, roc_auc_mean: 0.555, accuracy_mean: 0.511, f1_mean: 0.574 },
+  { language: "Kotlin", n_conversations: 38, n_success: 30, n_failure: 8, roc_auc_mean: 0.550, accuracy_mean: 0.654, f1_mean: 0.736 },
+  { language: "Ruby", n_conversations: 26, n_success: 19, n_failure: 7, roc_auc_mean: 0.500, accuracy_mean: 0.660, f1_mean: 0.725 },
+  { language: "C#", n_conversations: 100, n_success: 64, n_failure: 36, roc_auc_mean: 0.481, accuracy_mean: 0.600, f1_mean: 0.707 },
+  { language: "Batchfile", n_conversations: 67, n_success: 48, n_failure: 19, roc_auc_mean: 0.346, accuracy_mean: 0.585, f1_mean: 0.705 },
+  { language: "Shell", n_conversations: 30, n_success: 21, n_failure: 9, roc_auc_mean: 0.315, accuracy_mean: 0.433, f1_mean: 0.568 },
+];

@@ -1,0 +1,37 @@
+{
+  "primary_auc": 0.799,
+  "primary_reported": 0.799,
+  "n": 6413,
+  "ablations": [
+    {
+      "group": "Prompt-engineering features",
+      "n_dropped": 11,
+      "auc": 0.756,
+      "delta": 0.043
+    },
+    {
+      "group": "Repository language",
+      "n_dropped": 12,
+      "auc": 0.786,
+      "delta": 0.013
+    },
+    {
+      "group": "Source type",
+      "n_dropped": 5,
+      "auc": 0.782,
+      "delta": 0.016
+    },
+    {
+      "group": "Snapshot date",
+      "n_dropped": 9,
+      "auc": 0.798,
+      "delta": 0.001
+    },
+    {
+      "group": "ChatGPT model variant",
+      "n_dropped": 8,
+      "auc": 0.794,
+      "delta": 0.005
+    }
+  ]
+}

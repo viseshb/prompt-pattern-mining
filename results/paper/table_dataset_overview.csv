@@ -1,0 +1,8 @@
+metric,value
+conversations_total,6413.0
+conversations_labeled,6413.0
+conversations_unknown,0.0
+success_count,3529.0
+failure_count,2884.0
+labeled_rate_pct,100.0
+success_rate_labeled_pct,55.029

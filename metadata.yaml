@@ -1,0 +1,15 @@
+dataset:
+  name: DevGPT
+  version: "v10"
+  doi: "10.5281/zenodo.16392320"
+  release_date: "2025-07-24"
+  extraction_date: "2026-02-13"
+
+analysis:
+  project_title: "Prompt Pattern Mining in Vibe Coding"
+  evaluation_mode: "text_only"
+  random_seed: 42
+
+notes:
+  - "No execution-based correctness is used."
+  - "Primary label uses explicit acknowledgment and code-presence proxies."

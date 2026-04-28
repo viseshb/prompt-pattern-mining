@@ -1,0 +1,70 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# --- Frontend (Next.js) ---
+frontend/node_modules/
+frontend/.next/
+frontend/.turbo/
+frontend/out/
+frontend/coverage/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+frontend/tsconfig.tsbuildinfo
+frontend/next-env.d.ts
+frontend/*.tsbuildinfo
+
+# --- Data + raw artifacts (do not commit, regenerate locally) ---
+data/raw/
+data/interim/
+data/processed/
+*.parquet
+
+# --- Tooling / IDE / Claude ---
+.playwright-mcp/
+.idea/
+.vscode/
+.claude/
+.cursor/
+.aider*/
+*.code-workspace
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Logs and dev dumps ---
+*.log
+*.log.*
+frontend-dev-*.log
+playwright-card-dump.json
+*.tmp
+*.bak
+
+# --- Local screenshots / debug captures ---
+screenshots/
+*.snap.png
+
+# --- Secrets and local config ---
+.env
+.env.local
+*.key
+*.pem
+credentials.json
+
+# --- Build artifacts ---
+*.whl
+*.tar.gz

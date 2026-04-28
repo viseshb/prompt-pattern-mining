@@ -1,0 +1,287 @@
+@import "tailwindcss";
+
+/* ----------------------------------------------------------------------------
+   Claymorphism palette: cream bg, vibrant green CTA,
+   peach/blue/mint/lavender/amber pastel accents.
+   2.4px dark border, hard 6px offset shadow, 24px radius.
+   ---------------------------------------------------------------------------- */
+
+@theme {
+  --color-bg-cream:      #FFF9F5;
+  --color-text:          #2D3748;
+  --color-text-muted:    #64748B;
+  --color-border:        #E2E8F0;
+
+  --color-cta:           #22C55E;
+  --color-cta-dark:      #16A34A;
+  --color-primary:       #FDBCB4;   /* peach */
+  --color-secondary:     #ADD8E6;   /* light blue */
+  --color-accent-mint:   #98FF98;   /* mint green */
+  --color-accent-purple: #E6E6FA;   /* lavender */
+  --color-accent-amber:  #FDE68A;   /* soft amber for variety */
+
+  /* Backwards-compat aliases used across our components */
+  --color-base:       var(--color-bg-cream);
+  --color-base-2:     #F4ECE0;
+  --color-surface:    #FFFFFF;
+  --color-surface-2:  #FAF6EC;
+  --color-ink:        var(--color-text);
+  --color-ink-strong: #1A202C;
+  --color-ink-muted:  var(--color-text-muted);
+  --color-ink-dim:    #94A3B8;
+  --color-ink-soft:   #B0BEC5;
+
+  --color-line:       var(--color-border);
+  --color-line-2:     #CBD5E1;
+  --color-line-strong:var(--color-text);
+
+  --color-accent:        var(--color-cta);
+  --color-accent-soft:   #4ADE80;
+  --color-accent-deep:   var(--color-cta-dark);
+  --color-accent-tint:   #DCFCE7;
+
+  --color-coral:         #F97171;
+  --color-coral-tint:    #FEE2E2;
+
+  --color-sky:           #38BDF8;
+  --color-sky-tint:      #DBEAFE;
+
+  --color-amber:         #F59E0B;
+  --color-amber-tint:    var(--color-accent-amber);
+
+  --color-violet:        #8B5CF6;
+  --color-violet-tint:   var(--color-accent-purple);
+
+  /* Chart family — pastel-fill with dark border feel, AA on white */
+  --color-c1: #22C55E;   /* green CTA */
+  --color-c2: #38BDF8;   /* sky */
+  --color-c3: #F97171;   /* coral */
+  --color-c4: #F59E0B;   /* amber */
+  --color-c5: #8B5CF6;   /* violet */
+  --color-c6: #475569;   /* slate */
+
+  /* Vendor accents — distinct + brand-leaning */
+  --color-vendor-kimi:    #F59E0B;   /* amber */
+  --color-vendor-claude:  #D97757;   /* warm coral-clay */
+  --color-vendor-gemini:  #3B82F6;   /* blue */
+
+  --color-zero:       #94A3B8;
+  --color-eng:        var(--color-cta);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+section[data-snap] {
+  /* scroll-margin-top intentionally omitted — scroll-padding-top: 80px on
+     <html> already offsets anchor landings below the floating navbar.
+     Adding scroll-margin-top here would double-apply the offset and land
+     the user above the section start. */
+  min-height: 100vh;
+  /* No flex centering: long sections overflowed mid-content, so anchor
+     links landed past the heading. Plain block flow keeps the heading at
+     the section top. Short sections (Hero) center their own content via
+     internal padding. */
+  padding-top: 96px;
+  padding-bottom: 24px;
+}
+
+body {
+  background-color: var(--color-bg-cream);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-sans), "DM Sans", system-ui, sans-serif;
+}
+
+.font-display { font-family: var(--font-display), "Fredoka", "DM Sans", system-ui, sans-serif; letter-spacing: -0.02em; }
+.font-mono    { font-family: var(--font-mono), ui-monospace, monospace; }
+
+/* Scrollbar — soft on cream */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-base-2); }
+::-webkit-scrollbar-thumb { background: #cbb89e; border-radius: 8px; border: 2px solid var(--color-base-2); }
+::-webkit-scrollbar-thumb:hover { background: #a89e83; }
+
+::selection { background: var(--color-accent-mint); color: var(--color-text); }
+
+/* ----------------------------------------------------------------------------
+   CLAYMORPHISM: 2.4px dark border + 6px 6px 0 dark offset + inset bottom darken.
+   ---------------------------------------------------------------------------- */
+
+.clay-card {
+  background: #FFFFFF;
+  border: 2.4px solid var(--color-text);
+  border-radius: 24px;
+  box-shadow:
+    6px 6px 0 0 var(--color-text),
+    inset 0 -4px 0 0 rgba(0, 0, 0, 0.10);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.clay-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow:
+    8px 8px 0 0 var(--color-text),
+    inset 0 -4px 0 0 rgba(0, 0, 0, 0.10);
+}
+.clay-card-static { transition: none; }
+.clay-card-static:hover { transform: none; box-shadow: 6px 6px 0 0 var(--color-text), inset 0 -4px 0 0 rgba(0, 0, 0, 0.10); }
+
+/* Soft variant — no border, big diffuse drop, looks fluffier */
+.soft-clay {
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow:
+    0 8px 30px 0 rgba(0, 0, 0, 0.08),
+    inset 0 -4px 0 0 rgba(0, 0, 0, 0.05);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.soft-clay:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 14px 40px 0 rgba(0, 0, 0, 0.12),
+    inset 0 -4px 0 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Tinted clay variants — pastel filled cards w/ dark border */
+.clay-tint-peach   { background: var(--color-primary); }
+.clay-tint-blue    { background: var(--color-secondary); }
+.clay-tint-mint    { background: var(--color-accent-mint); }
+.clay-tint-lavender{ background: var(--color-accent-purple); }
+.clay-tint-amber   { background: var(--color-accent-amber); }
+.clay-tint-cream   { background: var(--color-base-2); }
+
+/* ----------------------------------------------------------------------------
+   BUTTONS — chunky, dark-bordered, hard-offset shadow.
+   ---------------------------------------------------------------------------- */
+
+.btn-primary {
+  background: var(--color-cta);
+  color: #FFFFFF;
+  border: 2.4px solid var(--color-text);
+  border-radius: 16px;
+  padding: 16px 32px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.005em;
+  box-shadow: 4px 4px 0 0 var(--color-text);
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 0 var(--color-text); background: var(--color-cta-dark); }
+.btn-primary:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 0 var(--color-text); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: 4px 4px 0 0 var(--color-text); }
+
+.btn-secondary {
+  background: #FFFFFF;
+  color: var(--color-text);
+  border: 2.4px solid var(--color-text);
+  border-radius: 16px;
+  padding: 16px 32px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 4px 4px 0 0 var(--color-text);
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+.btn-secondary:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 0 var(--color-text); background: var(--color-bg-cream); }
+.btn-secondary:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 0 var(--color-text); }
+.btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.btn-coral {
+  background: var(--color-coral);
+  color: #FFFFFF;
+  border: 2.4px solid var(--color-text);
+  border-radius: 16px;
+  padding: 16px 32px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 4px 4px 0 0 var(--color-text);
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.btn-coral:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 0 var(--color-text); }
+
+/* Pill — small playful tag */
+.clay-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 2.4px solid var(--color-text);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  background: #FFFFFF;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+.clay-pill-mint     { background: var(--color-accent-mint); }
+.clay-pill-peach    { background: var(--color-primary); }
+.clay-pill-blue     { background: var(--color-secondary); }
+.clay-pill-lavender { background: var(--color-accent-purple); }
+.clay-pill-amber    { background: var(--color-accent-amber); }
+
+/* Icon block — chunky rounded square holding an icon */
+.clay-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 2.4px solid var(--color-text);
+  border-radius: 14px;
+}
+.clay-icon-lg {
+  width: 64px;
+  height: 64px;
+  border: 2.4px solid var(--color-text);
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sticker badges — float on hero card */
+.clay-sticker {
+  border: 2.4px solid var(--color-text);
+  border-radius: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+}
+
+/* Highlight.js — light theme palette */
+pre code.hljs {
+  background: var(--color-base-2) !important;
+  color: var(--color-text) !important;
+  border-radius: 14px;
+  padding: 14px !important;
+  font-family: var(--font-mono) !important;
+  font-size: 12px !important;
+  border: 2px solid var(--color-text);
+  box-shadow: 3px 3px 0 0 var(--color-text);
+}
+.hljs-keyword, .hljs-built_in { color: var(--color-cta-dark) !important; font-weight: 700; }
+.hljs-string  { color: #B45309 !important; }
+.hljs-number  { color: #7C3AED !important; }
+.hljs-comment { color: #94A3B8 !important; font-style: italic; }
+.hljs-function, .hljs-title { color: #2563EB !important; }

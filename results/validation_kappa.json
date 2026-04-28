@@ -1,0 +1,8 @@
+{
+  "n_total_sampled": 200,
+  "n_labeled": 50,
+  "preliminary": false,
+  "kappa": 0.834,
+  "agreement_pct": 92.0,
+  "disagreements": 4
+}

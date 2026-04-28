@@ -1,0 +1,42 @@
+{
+  "n": 6413,
+  "interactions": [
+    {
+      "label": "Output Format \u00d7 Refinement",
+      "term": "has_output_format_first__x__refinement_turns",
+      "or": 0.894,
+      "ci_low": 0.833,
+      "ci_high": 0.961,
+      "p_value": 0.0022,
+      "significant": true
+    },
+    {
+      "label": "Output Format \u00d7 Constraints",
+      "term": "has_output_format_first__x__first_constraint_count",
+      "or": 0.957,
+      "ci_low": 0.909,
+      "ci_high": 1.006,
+      "p_value": 0.0857,
+      "significant": false
+    },
+    {
+      "label": "Role \u00d7 Output Format",
+      "term": "has_role_instruction_first__x__has_output_format_first",
+      "or": 5.284,
+      "ci_low": 3.37,
+      "ci_high": 8.287,
+      "p_value": 0.0,
+      "significant": true
+    },
+    {
+      "label": "Iterations \u00d7 Prompt Length",
+      "term": "iteration_count__x__first_prompt_tokens",
+      "or": 1.0,
+      "ci_low": 1.0,
+      "ci_high": 1.0,
+      "p_value": 0.0023,
+      "significant": true
+    }
+  ],
+  "any_significant": true
+}
