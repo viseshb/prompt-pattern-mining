@@ -68,3 +68,10 @@ credentials.json
 # --- Build artifacts ---
 *.whl
 *.tar.gz
+
+# --- Paper bundle (regenerable from paper/) ---
+PromptPatternMining_paper.zip
+paper/main.aux
+paper/main.log
+paper/main.out
+paper/main.toc

@@ -22,9 +22,8 @@ effect on three independent LLMs (Kimi K2, Claude Sonnet 4.6, Gemini 3.1
 Pro Preview) with success rates rising 14 to 24 percentage points. A
 50-sample manual audit gives Cohen's kappa = 0.834.
 
-The full paper is shipped as `PromptPatternMining_paper.zip` (LaTeX
-source, compiled PDF, figures, README). For a teaching-level explainer
-of every term and result, open the `README.md` inside that zip.
+The full paper lives in `paper/` (LaTeX source, compiled PDF, figures,
+and the figure-regeneration script).
 
 ---
 
@@ -36,7 +35,12 @@ Project/
 ├── requirements.txt              Pinned Python dependencies
 ├── metadata.yaml                 Dataset and project metadata
 ├── README.md                     This file
-├── PromptPatternMining_paper.zip Paper deliverable (LaTeX + PDF + figures)
+│
+├── paper/                        Paper deliverable
+│   ├── main.tex                    LaTeX source (IEEE conference)
+│   ├── main.pdf                    Compiled 7-page paper
+│   ├── make_figures.py             Regenerates figures from results/
+│   └── figures/                    PNGs used by main.tex
 │
 ├── config/
 │   └── feature_patterns.yaml     Regex patterns for feature extraction
@@ -219,16 +223,17 @@ Every number in the paper resolves to one of these files.
 
 ## Paper
 
-The full IEEE conference paper, with source, figures, and a teaching
-README, is shipped as `PromptPatternMining_paper.zip`. To compile from
-inside the unzipped folder:
+The full IEEE conference paper lives in `paper/`. To recompile:
 
-```
+```bash
+cd paper
 pdflatex main.tex
 pdflatex main.tex
 ```
 
-Two passes resolve cross-references. Output: `main.pdf` (7 pages).
+Two passes resolve cross-references. Output: `paper/main.pdf` (7 pages).
+Regenerate the figures from `results/` first with `python make_figures.py`
+if any pipeline JSON was updated.
 
 ---
 
