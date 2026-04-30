@@ -245,17 +245,21 @@ load of all four control groups combined.*
 
 ## Paper
 
-The full IEEE conference paper lives in `paper/`. To recompile:
+The full IEEE conference paper lives in `paper/`. To recompile, run
+`pdflatex` twice on the same `main.tex` (standard LaTeX workflow:
+the first pass writes the `.aux` file with cross-reference labels;
+the second pass reads it back to fill in section, table, and citation
+numbers):
 
 ```bash
 cd paper
-pdflatex main.tex
-pdflatex main.tex
+pdflatex main.tex   # pass 1: collects refs into main.aux
+pdflatex main.tex   # pass 2: resolves Section/Table/citation numbers
 ```
 
-Two passes resolve cross-references. Output: `paper/main.pdf` (7 pages).
-Regenerate the figures from `results/` first with `python make_figures.py`
-if any pipeline JSON was updated.
+Output: `paper/main.pdf` (7 pages). Regenerate the figures from
+`results/` first with `python make_figures.py` if any pipeline JSON
+was updated.
 
 ---
 
