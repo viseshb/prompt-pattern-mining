@@ -80,8 +80,12 @@ def fig_odds_ratio_forest():
     ax.set_xlabel("Odds Ratio (95% CI)")
     ax.set_xscale("log")
     ax.set_xlim(0.4, 3.0)
-    ax.set_xticks([0.5, 0.7, 1.0, 1.5, 2.0, 3.0])
-    ax.set_xticklabels([0.5, 0.7, 1.0, 1.5, 2.0, 3.0])
+    from matplotlib.ticker import FixedLocator, FixedFormatter, NullLocator
+    ticks = [0.5, 0.7, 1.0, 1.5, 2.0, 3.0]
+    ax.xaxis.set_major_locator(FixedLocator(ticks))
+    ax.xaxis.set_major_formatter(FixedFormatter([str(t) for t in ticks]))
+    ax.xaxis.set_minor_locator(NullLocator())
+    ax.xaxis.set_minor_formatter(FixedFormatter([]))
     ax.grid(axis="x", linestyle=":", linewidth=0.5, alpha=0.5)
     fig.savefig(OUT / "fig_odds_ratio_forest.png")
     plt.close(fig)
@@ -185,8 +189,12 @@ def fig_temporal_drift():
     ax.set_ylabel("Odds Ratio per snapshot")
     ax.set_xlabel("Snapshot date (2023-2024)")
     ax.set_yscale("log")
-    ax.set_yticks([0.3, 0.5, 0.7, 1.0, 1.5, 3.0, 7.0])
-    ax.set_yticklabels(["0.3", "0.5", "0.7", "1.0", "1.5", "3.0", "7.0"])
+    from matplotlib.ticker import FixedLocator, FixedFormatter, NullLocator
+    yticks = [0.3, 0.5, 0.7, 1.0, 1.5, 3.0, 7.0]
+    ax.yaxis.set_major_locator(FixedLocator(yticks))
+    ax.yaxis.set_major_formatter(FixedFormatter([str(t) for t in yticks]))
+    ax.yaxis.set_minor_locator(NullLocator())
+    ax.yaxis.set_minor_formatter(FixedFormatter([]))
     ax.legend(loc="upper left", framealpha=0.9)
     ax.grid(linestyle=":", linewidth=0.5, alpha=0.5)
     fig.savefig(OUT / "fig_temporal_drift.png")
@@ -241,8 +249,12 @@ def fig_interactions():
     ax.set_yticklabels(labels)
     ax.set_xscale("log")
     ax.set_xlabel("Interaction OR (95% CI)")
-    ax.set_xticks([0.7, 1.0, 2.0, 5.0, 10.0])
-    ax.set_xticklabels(["0.7", "1.0", "2.0", "5.0", "10"])
+    from matplotlib.ticker import FixedLocator, FixedFormatter, NullLocator
+    iticks = [0.7, 1.0, 2.0, 5.0, 10.0]
+    ax.xaxis.set_major_locator(FixedLocator(iticks))
+    ax.xaxis.set_major_formatter(FixedFormatter(["0.7", "1.0", "2.0", "5.0", "10"]))
+    ax.xaxis.set_minor_locator(NullLocator())
+    ax.xaxis.set_minor_formatter(FixedFormatter([]))
     ax.grid(axis="x", linestyle=":", linewidth=0.5, alpha=0.5)
     fig.savefig(OUT / "fig_interactions.png")
     plt.close(fig)
