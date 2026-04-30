@@ -176,15 +176,16 @@ npm run dev          # http://localhost:3000
 npm run build && npm run start
 ```
 
-Required environment in `frontend/.env.local` (not committed):
+Required environment in `frontend/.env.local` (not committed; copy
+`frontend/.env.example` and fill in real values):
 
 ```
-NVIDIA_API_KEY=...
-AWS_BEARER_TOKEN_BEDROCK=...
+NVIDIA_API_KEY=...                              # NVIDIA NIM, used for Kimi K2
+AWS_BEARER_TOKEN_BEDROCK=...                    # AWS Bedrock, used for Claude Sonnet 4.6
 AWS_REGION=us-east-1
-GEMINI_VERTEX_PROJECT=...
-GEMINI_VERTEX_REGION=us-central1
+CLOUD_RUN_API_KEY=...                           # Vertex Gemini key (frontend + pipeline)
 GEMINI_VERTEX_MODEL=gemini-3.1-pro-preview
+GEMINI_API_KEY=...                              # optional, only for pipeline/test_api_endpoints.py
 ```
 
 The `/api/race` endpoint streams from the three vendors in parallel.

@@ -164,7 +164,7 @@ def main():
     bedrock = env.get("AWS_BEARER_TOKEN_BEDROCK", "")
     region = env.get("AWS_REGION", "us-east-1").strip()
     gemini = env.get("GEMINI_API_KEY", "")
-    cloudrun = env.get("CLOUDRUN_API_KEY", "")
+    cloudrun = env.get("CLOUD_RUN_API_KEY", "")
 
     print(f"Loaded env from {Path(__file__).parent.parent / 'frontend' / '.env.local'}")
     print(f"  NVIDIA: {'set' if nvidia else 'MISSING'}")
