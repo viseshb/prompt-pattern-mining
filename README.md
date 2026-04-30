@@ -22,8 +22,11 @@ effect on three independent LLMs (Kimi K2, Claude Sonnet 4.6, Gemini 3.1
 Pro Preview) with success rates rising 14 to 24 percentage points. A
 50-sample manual audit gives Cohen's kappa = 0.834.
 
-The full paper lives in `paper/` (LaTeX source, compiled PDF, figures,
-and the figure-regeneration script).
+![Odds ratio forest plot for the eleven prompt features](paper/figures/fig_odds_ratio_forest.png)
+
+*Forest plot of the eleven prompt feature odds ratios on a log axis.
+Green markers > 1 (helpful), coral < 1 (hurtful), round = significant,
+square = not significant.*
 
 ---
 
@@ -156,6 +159,12 @@ python pipeline/import_study_results.py
 Outputs land in `results/multi_model/multi_model_study.json` and the
 importer regenerates `frontend/src/data/multiModelStudy.ts`.
 
+![Cross-model rubric scores for Kimi, Claude, Gemini](paper/figures/fig_cross_model.png)
+
+*Mean rubric score (0-4) for each vendor in zero-shot vs. engineered
+prompt conditions, n = 200 prompts per cell. Engineered prompts lift
+every vendor; Cohen's d ranges from 0.59 (Claude) to 0.80 (Gemini).*
+
 ---
 
 ## 3) Frontend (Next.js companion site)
@@ -218,6 +227,18 @@ This recomputes Cohen's kappa and writes
 | Cross-model lift (Kimi/Claude/Gemini) | +23 / +14 / +24 pp | multi_model_study.json |
 
 Every number in the paper resolves to one of these files.
+
+![Baseline ROC-AUC comparison](paper/figures/fig_baselines.png)
+
+*Five-fold stratified ROC-AUC for four classifiers fitted on the same
+6,413 conversation labels. The 11 structured prompt features add 1.7
+points on top of a 2,000-feature bag-of-words baseline.*
+
+![Feature group ablation](paper/figures/fig_ablation.png)
+
+*Drop-and-refit ablation: AUC loss when each feature group is removed.
+Prompt-engineering features carry roughly three times the predictive
+load of all four control groups combined.*
 
 ---
 
