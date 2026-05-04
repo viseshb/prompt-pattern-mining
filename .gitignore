@@ -75,3 +75,9 @@ paper/main.aux
 paper/main.log
 paper/main.out
 paper/main.toc
+
+# --- Presentation prep (kept local, not pushed) ---
+paper/SPEAKER_NOTES.md
+paper/build_speaker_notes_docx.py
+*.pptx
+*.docx
