@@ -22,12 +22,6 @@ effect on three independent LLMs (Kimi K2, Claude Sonnet 4.6, Gemini 3.1
 Pro Preview) with success rates rising 14 to 24 percentage points. A
 50-sample manual audit gives Cohen's kappa = 0.834.
 
-![Odds ratio forest plot for the eleven prompt features](paper/figures/fig_odds_ratio_forest.png)
-
-*Forest plot of the eleven prompt feature odds ratios on a log axis.
-Green markers > 1 (helpful), coral < 1 (hurtful), round = significant,
-square = not significant.*
-
 ---
 
 ## Repository layout
@@ -39,11 +33,8 @@ Project/
 ├── metadata.yaml                 Dataset and project metadata
 ├── README.md                     This file
 │
-├── paper/                        Paper deliverable
-│   ├── main.tex                    LaTeX source (IEEE conference)
-│   ├── main.pdf                    Compiled 7-page paper
-│   ├── make_figures.py             Regenerates figures from results/
-│   └── figures/                    PNGs used by main.tex
+├── paper/                        Paper source
+│   └── main.tex                    LaTeX source (IEEE conference paper)
 │
 ├── config/
 │   └── feature_patterns.yaml     Regex patterns for feature extraction
@@ -159,12 +150,6 @@ python pipeline/import_study_results.py
 Outputs land in `results/multi_model/multi_model_study.json` and the
 importer regenerates `frontend/src/data/multiModelStudy.ts`.
 
-![Cross-model rubric scores for Kimi, Claude, Gemini](paper/figures/fig_cross_model.png)
-
-*Mean rubric score (0-4) for each vendor in zero-shot vs. engineered
-prompt conditions, n = 200 prompts per cell. Engineered prompts lift
-every vendor; Cohen's d ranges from 0.59 (Claude) to 0.80 (Gemini).*
-
 ---
 
 ## 3) Frontend (Next.js companion site)
@@ -229,27 +214,13 @@ This recomputes Cohen's kappa and writes
 
 Every number in the paper resolves to one of these files.
 
-![Baseline ROC-AUC comparison](paper/figures/fig_baselines.png)
-
-*Five-fold stratified ROC-AUC for four classifiers fitted on the same
-6,413 conversation labels. The 11 structured prompt features add 1.7
-points on top of a 2,000-feature bag-of-words baseline.*
-
-![Feature group ablation](paper/figures/fig_ablation.png)
-
-*Drop-and-refit ablation: AUC loss when each feature group is removed.
-Prompt-engineering features carry roughly three times the predictive
-load of all four control groups combined.*
-
 ---
 
 ## Paper
 
-The full IEEE conference paper lives in `paper/`. To recompile, run
-`pdflatex` twice on the same `main.tex` (standard LaTeX workflow:
-the first pass writes the `.aux` file with cross-reference labels;
-the second pass reads it back to fill in section, table, and citation
-numbers):
+The IEEE conference paper source lives in `paper/main.tex`. The
+compiled PDF and the figures it embeds are kept locally (gitignored)
+and regenerated on demand. To recompile from a fresh checkout:
 
 ```bash
 cd paper
@@ -257,9 +228,8 @@ pdflatex main.tex   # pass 1: collects refs into main.aux
 pdflatex main.tex   # pass 2: resolves Section/Table/citation numbers
 ```
 
-Output: `paper/main.pdf` (7 pages). Regenerate the figures from
-`results/` first with `python make_figures.py` if any pipeline JSON
-was updated.
+Two passes resolve cross-references. Output: `paper/main.pdf`
+(7 pages, IEEE conference format).
 
 ---
 

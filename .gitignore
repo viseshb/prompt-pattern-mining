@@ -81,3 +81,9 @@ paper/SPEAKER_NOTES.md
 paper/build_speaker_notes_docx.py
 *.pptx
 *.docx
+
+# --- Paper folder: only main.tex ships to remote, rest stays local ---
+paper/main.pdf
+paper/make_figures.py
+paper/README.md
+paper/figures/
