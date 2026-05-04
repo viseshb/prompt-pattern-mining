@@ -174,11 +174,14 @@ function getWinnerLabel(race: RaceResult): string {
 function trimToCompleteSentence(text: string): string {
   const trimmed = text.trim();
   if (trimmed.endsWith(".") || trimmed.endsWith("!") || trimmed.endsWith("?")) return trimmed;
-  // If the model wrote a comma-chained partial like "...while Gemini's", clip
-  // back to the last terminal punctuation so we never display a truncated clause.
-  const lastTerm = Math.max(trimmed.lastIndexOf("."), trimmed.lastIndexOf("!"), trimmed.lastIndexOf("?"));
+  // If model wrote a partial like "...while Gemini's", clip back to the last
+  // sentence-ending punctuation. Match terminal punct followed by whitespace
+  // (or end-of-string) so decimals like "2.6x" or "O(n^2)" aren't misread as
+  // sentence ends.
+  const matches = [...trimmed.matchAll(/[.!?](?=\s|$)/g)];
+  const lastTerm = matches.length > 0 ? matches[matches.length - 1].index ?? -1 : -1;
   if (lastTerm > 0) return trimmed.slice(0, lastTerm + 1);
-  return trimmed + ".";
+  return trimmed + "...";
 }
 
 function getWinnerReason(race: RaceResult): string {
