@@ -482,9 +482,15 @@ WINNER PICKING
   that hits equivalent quality at much lower cost is the winner.
 - "winner" MUST have the highest overallScore. If two models tie on overallScore, pick the cheaper one.
 - "ranking" lists best to worst.
-- "winnerReason" is ONE concrete sentence naming the specific tradeoff
-  (e.g. "Kimi delivers production-grade code with full Big-O justification at 1/8 the cost of Claude").
-  Avoid generic praise.
+- "winnerReason" is ONE complete sentence about the WINNER ONLY. Maximum 25 words.
+  Do NOT chain comparisons against all three models in this string -- those go in the
+  per-model "missing" arrays. Pick ONE concrete strength of the winner and stop.
+  Bad (too long, incomplete): "Kimi delivers production-grade expand-around-center code
+       with full Big-O justification at 1/6 the cost and 2.6x faster than Claude, while
+       Gemini..." (gets cut off mid-sentence).
+  Good (concrete, complete): "Kimi delivers production-grade O(n^2) code with full
+       complexity justification at one-sixth the cost of Claude."
+  Always end the sentence with a period.
 
 ================================================================
 PROS ("excelsAt") AND CONS ("missing")
@@ -522,7 +528,7 @@ Return raw JSON only. No markdown fences. No prose before or after.
 
   const requestBody = {
     anthropic_version: "bedrock-2023-05-31",
-    max_tokens: 2500,
+    max_tokens: 4000,
     temperature: 0,
     system: schemaPrompt,
     messages: [

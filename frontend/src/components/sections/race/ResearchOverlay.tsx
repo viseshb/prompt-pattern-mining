@@ -171,12 +171,22 @@ function getWinnerLabel(race: RaceResult): string {
   return winner ? VENDORS[winner].shortName : "Analysis pending";
 }
 
+function trimToCompleteSentence(text: string): string {
+  const trimmed = text.trim();
+  if (trimmed.endsWith(".") || trimmed.endsWith("!") || trimmed.endsWith("?")) return trimmed;
+  // If the model wrote a comma-chained partial like "...while Gemini's", clip
+  // back to the last terminal punctuation so we never display a truncated clause.
+  const lastTerm = Math.max(trimmed.lastIndexOf("."), trimmed.lastIndexOf("!"), trimmed.lastIndexOf("?"));
+  if (lastTerm > 0) return trimmed.slice(0, lastTerm + 1);
+  return trimmed + ".";
+}
+
 function getWinnerReason(race: RaceResult): string {
   const winner = getWinnerVendor(race);
   const haikuWinner = race.comparativeAnalysis?.winner as Vendor | undefined;
   const haikuReason = race.comparativeAnalysis?.winnerReason;
   if (winner && haikuWinner === winner && haikuReason && haikuReason.trim().length > 0) {
-    return stripMathDelimiters(haikuReason);
+    return trimToCompleteSentence(stripMathDelimiters(haikuReason));
   }
   if (winner && race.comparativeAnalysis) {
     const judgment = race.comparativeAnalysis.modelJudgments[winner];
@@ -718,25 +728,30 @@ export function LiveScoreboard({ races, onClear }: { races: RaceResult[]; onClea
                     ))}
                   </div>
 
-                  <div className="rounded-2xl border-2 border-[var(--color-text)] bg-white px-4 py-4 shadow-[4px_4px_0_var(--color-text)]">
-                    <p className="text-[10px] uppercase tracking-[0.18em] text-[var(--color-text-muted)]">Final Decision</p>
-                    <div className="mt-3">
-                      <p className="text-[10px] uppercase tracking-[0.14em] text-[var(--color-text-muted)]">Best Value</p>
-                      <p className="font-display text-2xl font-bold text-[var(--color-text)]">
+                  <div className="rounded-2xl border-2 border-[var(--color-text)] bg-white shadow-[4px_4px_0_var(--color-text)] overflow-hidden">
+                    <div className="border-b-2 border-[var(--color-text)] bg-[var(--color-text)] px-4 py-2">
+                      <p className="text-[10px] uppercase tracking-[0.22em] text-white">Final Decision</p>
+                    </div>
+
+                    <div className="px-4 py-4">
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-[var(--color-text-muted)]">Best Value</p>
+                      <p className="mt-1 font-display text-2xl font-bold text-[var(--color-text)]">
                         {getWinnerLabel(race)}
                       </p>
-                      <p className="mt-1 text-xs font-semibold leading-relaxed text-[var(--color-text)]">
+                      <p className="mt-2 text-xs font-medium leading-relaxed text-[var(--color-text)]">
                         {getWinnerReason(race)}
                       </p>
                     </div>
-                    <div className="mt-3">
-                      <p className="text-[10px] uppercase tracking-[0.14em] text-[var(--color-text-muted)]">Paper Finding</p>
-                      <p className="mt-1 text-sm font-bold leading-relaxed text-[var(--color-text)]">
+
+                    <div className="border-t-2 border-dashed border-[var(--color-text-muted)] px-4 py-4">
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-[var(--color-text-muted)]">Paper Finding</p>
+                      <p className="mt-1 text-sm font-semibold leading-relaxed text-[var(--color-text)]">
                         {PAPER_FINDING}
                       </p>
                     </div>
-                    <div className="mt-3">
-                      <p className="text-[10px] uppercase tracking-[0.14em] text-[var(--color-text-muted)]">Regression Signal</p>
+
+                    <div className="border-t-2 border-dashed border-[var(--color-text-muted)] px-4 py-4">
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-[var(--color-text-muted)]">Regression Signal</p>
                       {race.promptEvidence.strongestSignal ? (
                         (() => {
                           const sig = race.promptEvidence.strongestSignal;
@@ -749,14 +764,20 @@ export function LiveScoreboard({ races, onClear }: { races: RaceResult[]; onClea
                               >
                                 {sig.label}
                               </p>
-                              <p
-                                className="mt-1 text-xs font-semibold leading-relaxed"
-                                style={{ color: "var(--color-text)" }}
-                              >
-                                Detected in <span className="font-mono font-bold">{hits}/3</span> outputs ·
-                                OR <span className="font-mono font-bold">{sig.oddsRatio.toFixed(2)}</span> ·{" "}
-                                <span className="font-mono">{formatPValue(sig.pValue)}</span>
-                              </p>
+                              <div className="mt-2 grid grid-cols-3 gap-2 text-[11px] font-semibold text-[var(--color-text)]">
+                                <div>
+                                  <p className="text-[9px] uppercase tracking-wider text-[var(--color-text-muted)]">Detected</p>
+                                  <p className="mt-0.5 font-mono font-bold">{hits}/3</p>
+                                </div>
+                                <div>
+                                  <p className="text-[9px] uppercase tracking-wider text-[var(--color-text-muted)]">Odds Ratio</p>
+                                  <p className="mt-0.5 font-mono font-bold">{sig.oddsRatio.toFixed(2)}</p>
+                                </div>
+                                <div>
+                                  <p className="text-[9px] uppercase tracking-wider text-[var(--color-text-muted)]">p-value</p>
+                                  <p className="mt-0.5 font-mono font-bold">{formatPValue(sig.pValue)}</p>
+                                </div>
+                              </div>
                             </>
                           );
                         })()
