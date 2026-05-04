@@ -39,16 +39,17 @@ function stream(generator: AsyncGenerator<string>): Response {
 // Kimi via NVIDIA NIM (OpenAI SSE format)
 // ---------------------------------------------------------------------------
 async function* kimiStream(messages: Message[]): AsyncGenerator<string> {
-  const apiKey = process.env.NVIDIA_API_KEY!;
+  const apiKey = process.env.AWS_BEARER_TOKEN_BEDROCK!;
+  const region = process.env.AWS_REGION || "us-east-1";
   try {
-    const r = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
+    const r = await fetch(`https://bedrock-mantle.${region}.api.aws/v1/chat/completions`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "moonshotai/kimi-k2-instruct",
+        model: "moonshotai.kimi-k2.5",
         messages: [{ role: "system", content: SYSTEM_PROMPTS.engineered }, ...messages],
         stream: true,
         temperature: 0.3,

@@ -26,15 +26,15 @@ def load_env():
 PROMPT = "Say hello in 5 words."
 
 
-def test_kimi(api_key):
-    print("\n[1] KIMI via NVIDIA NIM")
-    url = "https://integrate.api.nvidia.com/v1/chat/completions"
+def test_kimi(bearer_token, region):
+    print("\n[1] KIMI K2.5 via AWS Bedrock-Mantle")
+    url = f"https://bedrock-mantle.{region}.api.aws/v1/chat/completions"
     headers = {
-        "Authorization": f"Bearer {api_key}",
+        "Authorization": f"Bearer {bearer_token}",
         "Content-Type": "application/json",
     }
     body = {
-        "model": "moonshotai/kimi-k2-instruct",
+        "model": "moonshotai.kimi-k2.5",
         "messages": [{"role": "user", "content": PROMPT}],
         "max_tokens": 50,
         "stream": False,
@@ -117,63 +117,50 @@ def test_gemini_standard(api_key):
     return None
 
 
-def test_gemini_cloudrun(token):
-    print("\n[4] GEMINI 3 Pro preview (Cloud Run token, multiple auth styles)")
+def test_gemini_cloudrun(token, model_name="gemini-3.1-pro-preview"):
+    print(f"\n[4] GEMINI {model_name} (Vertex Express endpoint)")
     body = {
-        "contents": [{"parts": [{"text": PROMPT}]}],
-        "generationConfig": {"maxOutputTokens": 50},
+        "contents": [{"role": "user", "parts": [{"text": PROMPT}]}],
+        "generationConfig": {"maxOutputTokens": 50, "thinkingConfig": {"thinkingBudget": 0}},
     }
-    candidates = [
-        "gemini-3-pro-preview",
-        "gemini-3.0-pro-preview",
-        "gemini-3-pro",
-        "gemini-2.5-pro",
-    ]
-    auth_styles = [
-        ("Bearer", {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}, ""),
-        ("x-goog-api-key", {"x-goog-api-key": token, "Content-Type": "application/json"}, ""),
-        ("query-param-key", {"Content-Type": "application/json"}, f"?key={token}"),
-    ]
-    for style_name, headers, query in auth_styles:
-        for model in candidates:
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent{query}"
-            try:
-                r = requests.post(url, headers=headers, json=body, timeout=30)
-                if r.status_code == 200:
-                    j = r.json()
-                    cands = j.get("candidates", [])
-                    if cands and cands[0].get("content", {}).get("parts"):
-                        content = cands[0]["content"]["parts"][0].get("text", "")
-                        print(f"  OK ({style_name}, {model}): {content.strip()}")
-                        return (style_name, model)
-                    else:
-                        print(f"  FAIL ({style_name}, {model}): empty {json.dumps(j)[:200]}")
-                elif r.status_code == 429:
-                    print(f"  RATE-LIMITED ({style_name}, {model}, 429): quota exceeded but auth accepted")
-                else:
-                    snippet = r.text[:200].replace("\n", " ")
-                    print(f"  FAIL ({style_name}, {model}, {r.status_code}): {snippet}")
-            except Exception as e:
-                print(f"  ERROR ({style_name}, {model}): {e}")
-    return None
+    headers = {"x-goog-api-key": token, "Content-Type": "application/json"}
+    url = f"https://aiplatform.googleapis.com/v1/publishers/google/models/{model_name}:generateContent"
+    try:
+        r = requests.post(url, headers=headers, json=body, timeout=30)
+        if r.status_code == 200:
+            j = r.json()
+            cands = j.get("candidates", [])
+            if cands and cands[0].get("content", {}).get("parts"):
+                content = cands[0]["content"]["parts"][0].get("text", "")
+                print(f"  OK ({model_name}): {content.strip()}")
+                return True
+            print(f"  FAIL ({model_name}): empty payload {json.dumps(j)[:200]}")
+            return False
+        if r.status_code == 429:
+            print(f"  RATE-LIMITED ({model_name}, 429): quota exceeded but auth accepted")
+            return True
+        snippet = r.text[:200].replace("\n", " ")
+        print(f"  FAIL ({model_name}, {r.status_code}): {snippet}")
+        return False
+    except Exception as e:
+        print(f"  ERROR ({model_name}): {e}")
+        return False
 
 
 def main():
     env = load_env()
-    nvidia = env.get("NVIDIA_API_KEY", "")
     bedrock = env.get("AWS_BEARER_TOKEN_BEDROCK", "")
     region = env.get("AWS_REGION", "us-east-1").strip()
     gemini = env.get("GEMINI_API_KEY", "")
     cloudrun = env.get("CLOUD_RUN_API_KEY", "")
 
     print(f"Loaded env from {Path(__file__).parent.parent / 'frontend' / '.env.local'}")
-    print(f"  NVIDIA: {'set' if nvidia else 'MISSING'}")
-    print(f"  BEDROCK: {'set' if bedrock else 'MISSING'}")
+    print(f"  BEDROCK: {'set' if bedrock else 'MISSING'}  (Kimi K2.5 + Claude Sonnet 4.6)")
     print(f"  GEMINI:  {'set' if gemini else 'MISSING'}")
     print(f"  CLOUDRUN: provided in script (Gemini 3 Pro)")
 
     results = {}
-    results["kimi"] = test_kimi(nvidia)
+    results["kimi"] = test_kimi(bedrock, region)
     results["claude"] = test_bedrock_claude(bedrock, region)
     results["gemini_standard"] = bool(test_gemini_standard(gemini))
     results["gemini_cloudrun"] = bool(test_gemini_cloudrun(cloudrun))

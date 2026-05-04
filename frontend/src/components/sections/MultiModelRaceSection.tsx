@@ -33,8 +33,11 @@ const INITIAL_PANEL: PanelState = {
 
 const VENDOR_ORDER: Vendor[] = ["kimi", "claude", "gemini"];
 
+// USD per 1M tokens. Kimi K2.5 served via Bedrock-Mantle ($0.60 / $3.00),
+// Claude Sonnet 4.6 via Bedrock-Runtime ($3 / $15), Gemini 3.1 Pro Preview
+// via Vertex Express ($2 / $12 at <= 200K context).
 const MODEL_PRICING_USD_PER_M_TOKENS: Record<Vendor, { input: number; output: number }> = {
-  kimi: { input: 0.6, output: 2.5 },
+  kimi: { input: 0.6, output: 3 },
   claude: { input: 3, output: 15 },
   gemini: { input: 2, output: 12 },
 };

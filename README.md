@@ -64,7 +64,7 @@ Project/
 │   ├── visualize_results.py         Figure rendering
 │   ├── paper_results_report.py      Paper tables and findings JSON
 │   ├── import_study_results.py      JSON to frontend TypeScript
-│   └── test_api_endpoints.py        Smoke test for NVIDIA, Bedrock, Vertex
+│   └── test_api_endpoints.py        Smoke test for the four hosted model endpoints
 │
 ├── data/                         (gitignored) Input data
 │   ├── raw/                        DevGPT v10 download
@@ -142,7 +142,7 @@ Random seed 42 is fixed throughout.
 ## 2) Cross-model validation study
 
 ```bash
-# Smoke test API connectivity (NVIDIA NIM, AWS Bedrock, Vertex AI)
+# Smoke test API connectivity (Kimi K2.5, Claude Sonnet 4.6, Gemini 3.1 Pro)
 python pipeline/test_api_endpoints.py
 
 # Run study: 200 prompts x 3 vendors x 2 modes (zero-shot, engineered)
@@ -186,10 +186,9 @@ Required environment in `frontend/.env.local` (not committed; copy
 `frontend/.env.example` and fill in real values):
 
 ```
-NVIDIA_API_KEY=...                              # NVIDIA NIM, used for Kimi K2
-AWS_BEARER_TOKEN_BEDROCK=...                    # AWS Bedrock, used for Claude Sonnet 4.6
+AWS_BEARER_TOKEN_BEDROCK=...                    # Kimi K2.5 + Claude Sonnet 4.6 + Claude Haiku 4.5
 AWS_REGION=us-east-1
-CLOUD_RUN_API_KEY=...                           # Vertex Gemini key (frontend + pipeline)
+CLOUD_RUN_API_KEY=...                           # Gemini 3.1 Pro Preview
 GEMINI_VERTEX_MODEL=gemini-3.1-pro-preview
 GEMINI_API_KEY=...                              # optional, only for pipeline/test_api_endpoints.py
 ```

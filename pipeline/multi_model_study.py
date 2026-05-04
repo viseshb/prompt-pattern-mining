@@ -93,19 +93,20 @@ class ModelOutput:
 
 
 def call_kimi(messages: list[dict], max_tokens: int = 1500) -> ModelOutput:
-    out = ModelOutput(model_id="kimi-k2")
+    out = ModelOutput(model_id="kimi-k2.5")
+    region = ENV.get("AWS_REGION", "us-east-1").strip()
     t0 = time.time()
     last_err = None
     for attempt in range(6):
         try:
             r = requests.post(
-                "https://integrate.api.nvidia.com/v1/chat/completions",
+                f"https://bedrock-mantle.{region}.api.aws/v1/chat/completions",
                 headers={
-                    "Authorization": f"Bearer {ENV['NVIDIA_API_KEY']}",
+                    "Authorization": f"Bearer {ENV['AWS_BEARER_TOKEN_BEDROCK']}",
                     "Content-Type": "application/json",
                 },
                 json={
-                    "model": "moonshotai/kimi-k2-instruct",
+                    "model": "moonshotai.kimi-k2.5",
                     "messages": messages,
                     "max_tokens": max_tokens,
                     "temperature": 0.3,
