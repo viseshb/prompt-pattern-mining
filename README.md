@@ -22,6 +22,13 @@ effect on three independent LLMs (Kimi K2, Claude Sonnet 4.6, Gemini 3.1
 Pro Preview) with success rates rising 14 to 24 percentage points. A
 50-sample manual audit gives Cohen's kappa = 0.834.
 
+![Odds ratio forest plot for the eleven prompt features](paper/figures/fig_odds_ratio_forest.png)
+
+*Forest plot of the eleven prompt-feature odds ratios on a log axis.
+Green markers > 1 (helpful), coral < 1 (hurtful), round = significant,
+square = not significant. Output Format and Refinement Turns are the
+biggest helpers; Role Instruction (alone) is the biggest hurter.*
+
 ---
 
 ## Repository layout
@@ -34,7 +41,8 @@ Project/
 ├── README.md                     This file
 │
 ├── paper/                        Paper source
-│   └── main.tex                    LaTeX source (IEEE conference paper)
+│   ├── main.tex                    LaTeX source (IEEE conference paper)
+│   └── figures/                    PNGs embedded in main.tex and this README
 │
 ├── config/
 │   └── feature_patterns.yaml     Regex patterns for feature extraction
@@ -150,6 +158,19 @@ python pipeline/import_study_results.py
 Outputs land in `results/multi_model/multi_model_study.json` and the
 importer regenerates `frontend/src/data/multiModelStudy.ts`.
 
+![Cross-model rubric scores for Kimi, Claude, Gemini](paper/figures/fig_cross_model.png)
+
+*Mean rubric score (0-4) per vendor in zero-shot vs. engineered prompt
+conditions, n = 200 prompts per cell. Engineered prompts lift every
+vendor; Cohen's d ranges from 0.59 (Claude) to 0.80 (Gemini).*
+
+![Pairwise vendor agreement](paper/figures/fig_kappa_heatmap.png)
+
+*Pairwise Cohen's kappa between Kimi, Claude, and Gemini on the binary
+success label. Off-diagonal values 0.39 - 0.43 sit in the moderate
+agreement band: vendors agree on easy and hard prompts but split on
+boundary cases.*
+
 ---
 
 ## 3) Frontend (Next.js companion site)
@@ -214,13 +235,58 @@ This recomputes Cohen's kappa and writes
 
 Every number in the paper resolves to one of these files.
 
+![Baseline ROC-AUC comparison](paper/figures/fig_baselines.png)
+
+*Five-fold stratified ROC-AUC for four classifiers fitted on the same
+6,413 conversation labels. Majority and Random sit at chance, the BoW
+baseline reaches 0.782, and the 11 structured prompt features add 1.7
+points on top.*
+
+![Feature group ablation](paper/figures/fig_ablation.png)
+
+*Drop-and-refit ablation: AUC loss when each feature group is removed.
+The 11 prompt features carry roughly three times the predictive load
+of any control group, and roughly three times the load of all four
+control groups combined.*
+
+![Pre-registered interaction effects](paper/figures/fig_interactions.png)
+
+*Forest plot of the four pre-registered two-way interactions.
+Role x Output Format dominates at OR 5.28: a bare role prompt hurts,
+but combining role with an output format flips the joint effect
+strongly positive.*
+
+![Bivariate feature distributions](paper/figures/fig_feature_dist.png)
+
+*Mean prompt-feature values for successful (green) vs. unsuccessful
+(red) conversations on a symmetric log axis. Failures have ~6x more
+correction cycles; successful first prompts are slightly shorter
+(188 vs. 210 tokens).*
+
+![Spearman correlations between prompt features](paper/figures/fig_correlation.png)
+
+*Rank correlation matrix among the 11 features. Mostly near zero;
+the only pair above 0.4 is refinement turns vs. correction cycles
+(~0.45). Multicollinearity is therefore not driving the regression
+coefficients.*
+
+![Per-snapshot temporal stability](paper/figures/fig_temporal_drift.png)
+
+*Per-snapshot odds ratios for output format (green) and refinement
+turns (red) across DevGPT snapshots from August 2023 to May 2024.
+Output format stays > 1 in every snapshot. The apparent < 1 trend on
+refinement reflects the per-snapshot fit not separating refinement
+from correction cycles; the joint model recovers the positive
+refinement effect.*
+
 ---
 
 ## Paper
 
-The IEEE conference paper source lives in `paper/main.tex`. The
-compiled PDF and the figures it embeds are kept locally (gitignored)
-and regenerated on demand. To recompile from a fresh checkout:
+The IEEE conference paper source lives in `paper/main.tex`, with the
+embedded figures under `paper/figures/`. The compiled PDF is kept
+locally (gitignored) and regenerated on demand. To recompile from a
+fresh checkout:
 
 ```bash
 cd paper
